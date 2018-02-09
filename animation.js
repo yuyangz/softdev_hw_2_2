@@ -58,25 +58,26 @@ var screensave = function(){
     frame = window.requestAnimationFrame(screensave);
 }
 
-var animateShift = function(e){
+var startScreensave = function(e){
 	if (!animate){
 		animate = true;
-		frame = window.requestAnimationFrame(animate);
+		frame = window.requestAnimationFrame(screensave);
 	}
 }
 
 
 
-
-var stop = function(e){
-	if(animate){
+var stopFunction = function(e){
+    if(animate){
+	console.log("stop");
 		window.cancelAnimationFrame(frame);
 		ctx.clearRect(0,0,500,500);
-		animate = false;
+	    animate = false;
+	console.log("stop");
 	}
 }
 
 
-document.getElementById("stop").addEventListener("click", stop);
+document.getElementById("stop").addEventListener("click", stopFunction);
 document.getElementById("start").addEventListener("click", growAnimation);
-document.getElementById("dvd").addEventListener("click", screensave);
+document.getElementById("dvd").addEventListener("click", startScreensave);
