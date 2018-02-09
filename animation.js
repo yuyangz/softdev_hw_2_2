@@ -40,6 +40,7 @@ var growAnimation = function(e){
 		animtate = true;
 		frame = window.requestAnimationFrame(draw);
 	}
+    animate = true;
 }
 
 var screensave = function(){
@@ -71,7 +72,6 @@ var stopFunction = function(e){
     if(animate){
 	console.log("stop");
 		window.cancelAnimationFrame(frame);
-		ctx.clearRect(0,0,500,500);
 	    animate = false;
 	console.log("stop");
 	}
