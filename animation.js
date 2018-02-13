@@ -11,6 +11,12 @@ var ycor = 100;
 var frame;
 var xspeed;
 var yspeed;
+//for dvd animation
+var xIncr;
+var yIncr;
+var id;
+
+
 
 
 var draw = function(e){
@@ -43,28 +49,53 @@ var growAnimation = function(e){
     animate = true;
 }
 
-var screensave = function(){
-    ctx.clearRect(0, 0, 500, 500);
+//received function from JZhang
+var animateDVD = function(e){
+    //prevents ghosts
+    ctx.clearRect(0,0,600,600);
+
+    //
+    xcor += xIncr;
+    ycor += yIncr;
+
+    var logo = new Image();
+logo.src = "dvd.png";
+ctx.drawImage(logo,xcor, ycor, radius, radius);
+    //no longer necessary as we are now using logo
+    /*
     ctx.beginPath();
-    ctx.arc(xcor,ycor,50,0,2*Math.PI);
-    ctx.fill();
-    xcor += xspeed;
-    if (xcor + 50 >= 500 || xcor - 50 <= 0){
-        xspeed = xspeed * -1;
+    ctx.arc(xcor, ycor, radius, 0, 2*Math.PI);
+    ctx.fill();    
+    ctx.stroke();
+*/
+
+    //if the x or y is at the border, switch increments
+    var temp;
+    if(xcor <= radius || xcor >= 600 - radius){
+	xIncr = -1 * xIncr;
     }
-    ycor += yspeed;
-    if (ycor + 50 >= 500 || ycor - 50 <= 0){
-        yspeed = yspeed * -1;
+    if(ycor <= radius || ycor >= 600 - radius){
+	yIncr = -1 * yIncr;
     }
-    frame = window.requestAnimationFrame(screensave);
+
+    //keeps track of id in case you want to stop the animation
+    id = window.requestAnimationFrame(animateDVD);
 }
 
-var startScreensave = function(e){
-	if (!animate){
-		animate = true;
-		frame = window.requestAnimationFrame(screensave);
-	}
+var dvd = function(e){
+    if(!animate){
+	xcor = Math.random() * 400 + 100;
+	ycor = Math.random() * 400 + 100;
+
+	xIncr = Math.random() * 10 - 5;
+	yIncr = Math.random() * 10 - 5;
+	
+	animate = true;
+	radius = 50;
+	window.requestAnimationFrame(animateDVD);
+    }
 }
+
 
 
 
@@ -77,7 +108,9 @@ var stopFunction = function(e){
 	}
 }
 
+var dvdBtn = document.getElementById("dvd");
+
 
 document.getElementById("stop").addEventListener("click", stopFunction);
 document.getElementById("start").addEventListener("click", growAnimation);
-document.getElementById("dvd").addEventListener("click", startScreensave);
+dvdBtn.addEventListener("click", dvd);
